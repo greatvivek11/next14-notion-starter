@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-
 import got from 'got'
-import { PageBlock } from 'notion-types'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import type { PageBlock } from 'notion-types'
 import {
   getBlockIcon,
   getBlockTitle,
@@ -13,9 +12,9 @@ import {
 import * as libConfig from '@/lib/config'
 import { mapImageUrl } from '@/lib/map-image-url'
 import { notion } from '@/lib/notion-api'
-import { NotionPageInfo } from '@/lib/types'
+import type { NotionPageInfo } from '@/lib/types'
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).send({ error: 'method not allowed' })
   }
@@ -59,7 +58,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const imageBlockUrl = mapImageUrl(
     getPageProperty<string>('Social Image', block, recordMap) ||
-      (block as PageBlock).format?.page_cover,
+    (block as PageBlock).format?.page_cover,
     block
   )
   const imageFallbackUrl = mapImageUrl(libConfig.defaultPageCover, block)
@@ -97,8 +96,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const date =
     isBlogPost && datePublished
       ? `${datePublished.toLocaleString('en-US', {
-          month: 'long'
-        })} ${datePublished.getFullYear()}`
+        month: 'long'
+      })} ${datePublished.getFullYear()}`
       : undefined
   const detail = date || author || libConfig.domain
 

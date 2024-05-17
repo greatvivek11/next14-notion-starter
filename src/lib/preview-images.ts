@@ -1,10 +1,9 @@
 import got from 'got'
 import lqip from 'lqip-modern'
-import { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types'
+import type { ExtendedRecordMap, PreviewImage, PreviewImageMap } from 'notion-types'
 import { getPageImageUrls, normalizeUrl } from 'notion-utils'
 import pMap from 'p-map'
 import pMemoize from 'p-memoize'
-
 import { defaultPageCover, defaultPageIcon } from './config'
 import { db } from './db'
 import { mapImageUrl } from './map-image-url'
@@ -46,7 +45,7 @@ async function createPreviewImage(
       }
     } catch (err) {
       // ignore redis errors
-      console.warn(`redis error get "${cacheKey}"`, err.message)
+      // console.warn(`redis error get "${cacheKey}"`, err.message)
     }
 
     const { body } = await got(url, { responseType: 'buffer' })
@@ -63,7 +62,7 @@ async function createPreviewImage(
       await db.set(cacheKey, previewImage)
     } catch (err) {
       // ignore redis errors
-      console.warn(`redis error set "${cacheKey}"`, err.message)
+      // console.warn(`redis error set "${cacheKey}"`, err.message)
     }
 
     return previewImage

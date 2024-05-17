@@ -1,20 +1,15 @@
-import rawSiteConfig from '../site.config'
-import { SiteConfig } from './site-config'
+import rawSiteConfig from 'site.config'
+import type { SiteConfig } from './site-config'
 
 if (!rawSiteConfig) {
-  throw new Error(`Config error: invalid site.config.ts`)
+  throw new Error('Config error: invalid site.config.ts')
 }
 
 // allow environment variables to override site.config.ts
 let siteConfigOverrides: SiteConfig
 
-try {
-  if (process.env.NEXT_PUBLIC_SITE_CONFIG) {
-    siteConfigOverrides = JSON.parse(process.env.NEXT_PUBLIC_SITE_CONFIG)
-  }
-} catch (err) {
-  console.error('Invalid config "NEXT_PUBLIC_SITE_CONFIG" failed to parse')
-  throw err
+if (process.env.NEXT_PUBLIC_SITE_CONFIG) {
+  siteConfigOverrides = JSON.parse(process.env.NEXT_PUBLIC_SITE_CONFIG)
 }
 
 const siteConfig: SiteConfig = {

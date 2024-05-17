@@ -1,8 +1,8 @@
 import React from 'react'
-import { domain, isDev, rootNotionPageId } from 'lib/config'
-import { resolveNotionPage } from 'lib/resolve-notion-page'
+import { domain, isDev, rootNotionPageId } from '@/lib/config'
+import { resolveNotionPage } from '@/lib/resolve-notion-page'
 import omit from 'lodash.omit'
-import { ExtendedRecordMap } from 'notion-types'
+import type { ExtendedRecordMap } from 'notion-types'
 import { normalizeTitle } from 'notion-utils'
 import { NotionPage } from '@/components/NotionPage'
 
@@ -15,8 +15,8 @@ export const getStaticProps = async (context) => {
         const props = await resolveNotionPage(domain, process.env.BLOG_PAGE_ID)
         let propertyToFilterName: string = null
 
-        if ((props as any).recordMap) {
-            const recordMap = (props as any).recordMap as ExtendedRecordMap
+        if (props.recordMap) {
+            const recordMap = props.recordMap as ExtendedRecordMap
             const collection = Object.values(recordMap.collection)[0]?.value
 
             if (collection) {
@@ -104,8 +104,8 @@ export async function getStaticPaths() {
     if (!isDev) {
         const props = await resolveNotionPage(domain, rootNotionPageId)
 
-        if ((props as any).recordMap) {
-            const recordMap = (props as any).recordMap as ExtendedRecordMap
+        if (props.recordMap) {
+            const recordMap = props.recordMap as ExtendedRecordMap
             const collection = Object.values(recordMap.collection)[0]?.value
 
             if (collection) {

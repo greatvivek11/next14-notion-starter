@@ -1,22 +1,23 @@
 import * as React from 'react'
-import { NextRequest } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 import { ImageResponse } from '@vercel/og'
 
 import { api, apiHost, rootNotionPageId } from '@/lib/config'
-import { NotionPageInfo } from '@/lib/types'
+import type { NotionPageInfo } from '@/lib/types'
+import Image from 'next/image'
 
 const interRegularFontP = fetch(
-  new URL('../../public/fonts/Inter-Regular.ttf', import.meta.url)
+  new URL('@/public/fonts/Inter-Regular.ttf', import.meta.url)
 ).then((res) => res.arrayBuffer())
 
 const interBoldFontP = fetch(
-  new URL('../../public/fonts/Inter-SemiBold.ttf', import.meta.url)
+  new URL('@/public/fonts/Inter-SemiBold.ttf', import.meta.url)
 ).then((res) => res.arrayBuffer())
 
-// export const config = {
-//   runtime: 'experimental-edge'
-// }
+export const config = {
+  runtime: 'edge'
+}
 
 export default async function OGImage(req: NextRequest) {
   const { searchParams } = new URL(req.url)
@@ -60,8 +61,9 @@ export default async function OGImage(req: NextRequest) {
         }}
       >
         {pageInfo.image && (
-          <img
+          <Image
             src={pageInfo.image}
+            alt='Notion Page'
             style={{
               position: 'absolute',
               width: '100%',
@@ -145,8 +147,9 @@ export default async function OGImage(req: NextRequest) {
               zIndex: '5'
             }}
           >
-            <img
+            <Image
               src={pageInfo.authorImage}
+              alt='Author'
               style={{
                 width: '100%',
                 height: '100%'

@@ -25,13 +25,19 @@
     "incremental": true,
     "paths": {
       "@/components/*": [
-        "components/*"
+        "src/components/*"
       ],
       "@/lib/*": [
-        "lib/*"
+        "src/lib/*"
       ],
       "@/styles/*": [
-        "styles/*"
+        "src/styles/*"
+      ],
+      "@/pages/*": [
+        "src/pages/*"
+      ],
+      "@/public/*": [
+        "public/*"
       ]
     }
   },

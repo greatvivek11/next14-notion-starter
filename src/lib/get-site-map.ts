@@ -1,6 +1,6 @@
 import { getAllPagesInSpace, getPageProperty } from 'notion-utils'
-import * as config from './config'
-import * as types from './types'
+import { rootNotionPageId, rootNotionSpaceId, site } from './config'
+import type * as types from './types'
 import { includeNotionIdInUrls } from './config'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { notion } from './notion-api'
@@ -9,12 +9,12 @@ const uuid = !!includeNotionIdInUrls
 
 export async function getSiteMap(): Promise<types.SiteMap> {
   const partialSiteMap = await getAllPages(
-    config.rootNotionPageId,
-    config.rootNotionSpaceId
+    rootNotionPageId,
+    rootNotionSpaceId
   )
 
   return {
-    site: config.site,
+    site: site,
     ...partialSiteMap
   } as types.SiteMap
 }
@@ -52,19 +52,18 @@ async function getAllPages(
       if (map[canonicalPageId]) {
         // you can have multiple pages in different collections that have the same id
         // TODO: we may want to error if neither entry is a collection page
-        console.warn('error duplicate canonical page id', {
-          canonicalPageId,
-          pageId,
-          existingPageId: map[canonicalPageId]
-        })
+        // console.warn('error duplicate canonical page id', {
+        //   canonicalPageId,
+        //   pageId,
+        //   existingPageId: map[canonicalPageId]
+        // })
 
         return map
-      } else {
+      }
         return {
           ...map,
           [canonicalPageId]: pageId
         }
-      }
     },
     {}
   )

@@ -1,13 +1,23 @@
-import { ExtendedRecordMap } from 'notion-types'
+import type { ExtendedRecordMap } from 'notion-types'
 import { parsePageId } from 'notion-utils'
-
 import * as acl from './acl'
 import { environment, pageUrlAdditions, pageUrlOverrides, site } from './config'
 import { db } from './db'
 import { getSiteMap } from './get-site-map'
 import { getPage } from './notion'
+import type { Site } from './types'
 
-export async function resolveNotionPage(domain: string, rawPageId?: string) {
+export interface NotionPage {
+  site: Site;
+  recordMap: ExtendedRecordMap;
+  pageId: string;
+  error?: {
+    message?: string;
+    statusCode: number;
+  }
+}
+
+export async function resolveNotionPage(domain: string, rawPageId?: string): Promise<NotionPage> {
   let pageId: string
   let recordMap: ExtendedRecordMap
 
@@ -25,7 +35,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
       }
     }
 
-    const useUriToPageIdCache = true
+    const useUriToPageIdCache = false
     const cacheKey = `uri-to-page-id:${domain}:${environment}:${rawPageId}`
     // TODO: should we use a TTL for these mappings or make them permanent?
     // const cacheTTL = 8.64e7 // one day in milliseconds
@@ -39,7 +49,7 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
         // console.log(`redis get "${cacheKey}"`, pageId)
       } catch (err) {
         // ignore redis errors
-        console.warn(`redis error get "${cacheKey}"`, err.message)
+        // console.warn(`redis error get "${cacheKey}"`, err.message)
       }
     }
 
@@ -66,12 +76,15 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
             // console.log(`redis set "${cacheKey}"`, pageId, { cacheTTL })
           } catch (err) {
             // ignore redis errors
-            console.warn(`redis error set "${cacheKey}"`, err.message)
+            // console.warn(`redis error set "${cacheKey}"`, err.message)
           }
         }
       } else {
         // note: we're purposefully not caching URI to pageId mappings for 404s
         return {
+          site: null,
+          recordMap: null,
+          pageId,
           error: {
             message: `Not found "${rawPageId}"`,
             statusCode: 404
@@ -87,5 +100,5 @@ export async function resolveNotionPage(domain: string, rawPageId?: string) {
   }
 
   const props = { site, recordMap, pageId }
-  return { ...props, ...(await acl.pageAcl(props)) }
+  return { ...props, ...(await acl.default(props)) }
 }

@@ -1,5 +1,4 @@
 import type { GetServerSideProps } from 'next'
-
 import { host } from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
 import type { SiteMap } from '@/lib/types'
@@ -43,15 +42,15 @@ const createSitemap = (siteMap: SiteMap) =>
     </url>
 
     ${Object.keys(siteMap.canonicalPageMap)
-      .map((canonicalPagePath) =>
-        `
+    .map((canonicalPagePath) =>
+      `
           <url>
             <loc>${host}/${canonicalPagePath}</loc>
           </url>
         `.trim()
-      )
-      .join('')}
+    )
+    .join('')}
   </urlset>
 `
 
-export default () => null
+export default function sitemap() { }
