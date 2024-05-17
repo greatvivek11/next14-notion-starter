@@ -1,11 +1,7 @@
-import * as React from 'react'
 import type { NextRequest } from 'next/server'
-
 import { ImageResponse } from '@vercel/og'
-
 import { api, apiHost, rootNotionPageId } from '@/lib/config'
 import type { NotionPageInfo } from '@/lib/types'
-import Image from 'next/image'
 
 const interRegularFontP = fetch(
   new URL('@/public/fonts/Inter-Regular.ttf', import.meta.url)
@@ -16,7 +12,7 @@ const interBoldFontP = fetch(
 ).then((res) => res.arrayBuffer())
 
 export const config = {
-  runtime: 'edge'
+  runtime: 'nodejs'
 }
 
 export default async function OGImage(req: NextRequest) {
@@ -61,7 +57,7 @@ export default async function OGImage(req: NextRequest) {
         }}
       >
         {pageInfo.image && (
-          <Image
+          <img
             src={pageInfo.image}
             alt='Notion Page'
             style={{
@@ -147,7 +143,7 @@ export default async function OGImage(req: NextRequest) {
               zIndex: '5'
             }}
           >
-            <Image
+            <img
               src={pageInfo.authorImage}
               alt='Author'
               style={{
