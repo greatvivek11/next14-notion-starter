@@ -1,0 +1,49 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Next App",
+      "request": "launch",
+      "type": "node-terminal",
+      "command": "npm run dev",
+      "env": {
+        "NODE_ENV": "development",
+        "NODE_OPTIONS": "--inspect"
+      },
+      "presentation": {
+        "hidden": false,
+      },
+      "autoAttachChildProcesses": true,
+    },
+    {
+      "type": "chrome",
+      "name": "Launch Brave",
+      "request": "launch",
+      "cleanUp": "wholeBrowser",
+      "userDataDir": true,
+      "url": "http://localhost:3000",
+      "runtimeExecutable": "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
+      "cascadeTerminateToConfigurations": [
+        "Launch Next App"
+      ],
+      "presentation": {
+        "hidden": true
+      },
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "pattern": "listening on port ([0-9]+)",
+        "uriFormat": "http://localhost:%s"
+      },
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Launch App",
+      "configurations": [
+        "Launch Brave",
+        "Launch Next App"
+      ]
+    }
+  ],
+}
