@@ -1,6 +1,6 @@
-// global styles shared across the entire site
-import * as React from 'react'
+import React from 'react'
 import type { AppProps } from 'next/app'
+// global styles shared across the entire site
 // used for rendering equations (optional)
 import 'katex/dist/katex.min.css'
 // used for code syntax highlighting (optional)
@@ -13,16 +13,15 @@ import 'styles/global.css'
 // global style overrides for notion
 import 'styles/notion.css'
 // global style overrides for prism theme (optional)
-import { bootstrap } from '@/lib/bootstrap-client'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import 'styles/prism-theme.css'
+import { Analytics } from "@vercel/analytics/react"
 
-// export const config = {
-//   runtime: 'nodejs', // or "edge"
-// }
-import { isServer } from '@/lib/config'
-if (!isServer) {
-  bootstrap()
-}
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return <>
+  {/* Remove analytics if not needed */}
+    <SpeedInsights />
+    <Analytics />
+    <Component {...pageProps} />
+  </>
 }
