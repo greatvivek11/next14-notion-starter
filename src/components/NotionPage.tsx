@@ -1,11 +1,10 @@
+import React from 'react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
-
 import cs from 'classnames'
-import { PageBlock } from 'notion-types'
+import type { PageBlock } from 'notion-types'
 import {
   formatDate,
   getBlockTitle,
@@ -21,7 +20,7 @@ import * as config from '@/lib/config'
 import { mapImageUrl } from '@/lib/map-image-url'
 import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
-import * as types from '@/lib/types'
+import type * as types from '@/lib/types'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
@@ -148,11 +147,6 @@ const propertySelectValue = (
   return defaultFn()
 }
 
-// const HeroHeader = dynamic<{ className?: string }>(
-//   () => import('./HeroHeader').then((m) => m.HeroHeader),
-//   { ssr: false }
-// )
-
 export const NotionPage: React.FC<types.PageProps> = ({
   site,
   recordMap,
@@ -199,12 +193,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]]?.value
 
-  // const isRootPage =
-  //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
-  // const isBioPage =
-  //   parsePageId(block?.id) === parsePageId(process.env.ABOUT_PAGE_ID)
 
   const showTableOfContents = !!isBlogPost
   const minTableOfContentsItems = 3
@@ -217,16 +207,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
   )
 
   const footer = React.useMemo(() => <Footer />, [])
-
-  // const pageCover = React.useMemo(() => {
-  //   if (isBioPage) {
-  //     return (
-  //       <HeroHeader className='notion-page-cover-wrapper notion-page-cover-hero' />
-  //     )
-  //   } else {
-  //     return null
-  //   }
-  // }, [isBioPage])
 
   if (router.isFallback) {
     return <Loading />
@@ -311,7 +291,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
         footer={footer}
         pageTitle={tagsPage && propertyToFilterName ? title : undefined}
         isLinkCollectionToUrlProperty={false}
-      // pageCover={pageCover}
       />
     </>
   )

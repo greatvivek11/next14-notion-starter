@@ -1,11 +1,12 @@
 import * as React from 'react'
-import { GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import { NotionPage } from '@/components/NotionPage'
 import { domain, isDev } from '@/lib/config'
 import { getSiteMap } from '@/lib/get-site-map'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
-import { PageProps, Params } from '@/lib/types'
+import type { PageProps, Params } from '@/lib/types'
 
+// This is needed to generate pages at runtime dynamically using ISR.
 export const config = {
   runtime: 'nodejs', // or "edge"
 }
@@ -18,7 +19,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   try {
     const props = await resolveNotionPage(domain, rawPageId)
 
-    return { props, revalidate: parseInt(process.env.REVALIDATE) }
+    return { props, revalidate: Number.parseInt(process.env.REVALIDATE) }
   } catch (err) {
     console.error('page error', domain, rawPageId, err)
 
@@ -48,37 +49,10 @@ export async function getStaticPaths() {
     fallback: 'blocking'
   }
 
-  console.log(staticPaths.paths)
+  // console.log(staticPaths.paths)
   return staticPaths
 }
 
 export default function NotionDomainDynamicPage(props: JSX.IntrinsicAttributes & PageProps) {
   return <NotionPage {...props} />
 }
-
-// export const getServerSideProps: GetServerSideProps = async ({ req, res, params }) => {
-//   if (req.method !== 'GET') {
-//     res.statusCode = 405
-//     res.setHeader('Content-Type', 'application/json')
-//     res.write(JSON.stringify({ error: 'method not allowed' }))
-//     res.end()
-//     return { props: {} }
-//   }
-//   const rawPageId = params?.pageId as string
-
-//   const ttlSeconds = 60
-
-//   res.setHeader(
-//     'Cache-Control',
-//     `public, max-age=${ttlSeconds}, stale-while-revalidate=${ttlSeconds}`
-//   )
-
-
-//   try {
-//     const props = await resolveNotionPage(domain, rawPageId)
-//     return { props: { ...props } }
-//   } catch (err) {
-//     console.error('page error', domain, rawPageId, err)
-//     throw err
-//   }
-// }

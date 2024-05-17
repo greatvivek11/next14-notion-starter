@@ -1,5 +1,4 @@
 import * as React from 'react'
-
 import { FaEnvelopeOpenText } from '@react-icons/all-files/fa/FaEnvelopeOpenText'
 import { FaGithub } from '@react-icons/all-files/fa/FaGithub'
 import { FaLinkedin } from '@react-icons/all-files/fa/FaLinkedin'
@@ -7,11 +6,11 @@ import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaYoutube } from '@react-icons/all-files/fa/FaYoutube'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
-
-import * as config from '@/lib/config'
+import { author, twitter, github, linkedin, newsletter, youtube } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
+import Link from 'next/link'
 
 // TODO: merge the data and icons from PageSocial with the social links in Footer
 
@@ -34,11 +33,11 @@ export const FooterImpl: React.FC = () => {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.copyright}>Copyright {currentYear} {config.author}</div>
+      <div className={styles.copyright}>Copyright {currentYear} {author}</div>
 
       <div className={styles.settings}>
         {hasMounted && (
-          <a
+          <Link
             className={styles.toggleDarkMode}
             href='#'
             role='button'
@@ -46,16 +45,16 @@ export const FooterImpl: React.FC = () => {
             title='Toggle dark mode'
           >
             {isDarkMode ? <IoMoonSharp /> : <IoSunnyOutline />}
-          </a>
+          </Link>
         )}
       </div>
 
       <div className={styles.social}>
-        {config.twitter && (
+        {twitter && (
           <a
             className={styles.twitter}
-            href={`https://twitter.com/${config.twitter}`}
-            title={`Twitter @${config.twitter}`}
+            href={`https://twitter.com/${twitter}`}
+            title={`Twitter @${twitter}`}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -63,11 +62,11 @@ export const FooterImpl: React.FC = () => {
           </a>
         )}
 
-        {config.github && (
+        {github && (
           <a
             className={styles.github}
-            href={`https://github.com/${config.github}`}
-            title={`GitHub @${config.github}`}
+            href={`https://github.com/${github}`}
+            title={`GitHub @${github}`}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -75,11 +74,11 @@ export const FooterImpl: React.FC = () => {
           </a>
         )}
 
-        {config.linkedin && (
+        {linkedin && (
           <a
             className={styles.linkedin}
-            href={`https://www.linkedin.com/in/${config.linkedin}`}
-            title={`LinkedIn ${config.author}`}
+            href={`https://www.linkedin.com/in/${linkedin}`}
+            title={`LinkedIn ${author}`}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -87,11 +86,11 @@ export const FooterImpl: React.FC = () => {
           </a>
         )}
 
-        {config.newsletter && (
+        {newsletter && (
           <a
             className={styles.newsletter}
-            href={`${config.newsletter}`}
-            title={`Newsletter ${config.author}`}
+            href={`${newsletter}`}
+            title={`Newsletter ${author}`}
             target='_blank'
             rel='noopener noreferrer'
           >
@@ -99,11 +98,11 @@ export const FooterImpl: React.FC = () => {
           </a>
         )}
 
-        {config.youtube && (
+        {youtube && (
           <a
             className={styles.youtube}
-            href={`https://www.youtube.com/${config.youtube}`}
-            title={`YouTube ${config.author}`}
+            href={`https://www.youtube.com/${youtube}`}
+            title={`YouTube ${author}`}
             target='_blank'
             rel='noopener noreferrer'
           >
