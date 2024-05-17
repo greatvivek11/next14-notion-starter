@@ -1,8 +1,8 @@
-import React from 'react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React from 'react'
 
 import cs from 'classnames'
 import { PageBlock } from 'notion-types'
@@ -10,8 +10,7 @@ import {
   formatDate,
   getBlockTitle,
   getPageProperty,
-  normalizeTitle,
-  parsePageId
+  normalizeTitle
 } from 'notion-utils'
 import BodyClassName from 'react-body-classname'
 import { NotionRenderer } from 'react-notion-x'
@@ -149,10 +148,10 @@ const propertySelectValue = (
   return defaultFn()
 }
 
-const HeroHeader = dynamic<{ className?: string }>(
-  () => import('./HeroHeader').then((m) => m.HeroHeader),
-  { ssr: false }
-)
+// const HeroHeader = dynamic<{ className?: string }>(
+//   () => import('./HeroHeader').then((m) => m.HeroHeader),
+//   { ssr: false }
+// )
 
 export const NotionPage: React.FC<types.PageProps> = ({
   site,
@@ -204,8 +203,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
   //   parsePageId(block?.id) === parsePageId(site?.rootNotionPageId)
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
-  const isBioPage =
-    parsePageId(block?.id) === parsePageId(process.env.ABOUT_PAGE_ID)
+  // const isBioPage =
+  //   parsePageId(block?.id) === parsePageId(process.env.ABOUT_PAGE_ID)
 
   const showTableOfContents = !!isBlogPost
   const minTableOfContentsItems = 3
@@ -219,15 +218,15 @@ export const NotionPage: React.FC<types.PageProps> = ({
 
   const footer = React.useMemo(() => <Footer />, [])
 
-  const pageCover = React.useMemo(() => {
-    if (isBioPage) {
-      return (
-        <HeroHeader className='notion-page-cover-wrapper notion-page-cover-hero' />
-      )
-    } else {
-      return null
-    }
-  }, [isBioPage])
+  // const pageCover = React.useMemo(() => {
+  //   if (isBioPage) {
+  //     return (
+  //       <HeroHeader className='notion-page-cover-wrapper notion-page-cover-hero' />
+  //     )
+  //   } else {
+  //     return null
+  //   }
+  // }, [isBioPage])
 
   if (router.isFallback) {
     return <Loading />
