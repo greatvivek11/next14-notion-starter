@@ -1,4 +1,5 @@
 import { siteConfig } from '@/lib/site-config';
+import { NavigationStyle } from '@/lib/types';
 
 export default siteConfig({
   // the site's root Notion page (required)
@@ -6,14 +7,13 @@ export default siteConfig({
 
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
-  // rootNotionSpaceId: null,
-  // purposely left null as build was failing with empty or non-null space id.
   rootNotionSpaceId: process.env.ROOT_NOTION_SPACE_ID,
 
   // basic site info (required)
   name: process.env.NAME,
   domain: process.env.DOMAIN,
   author: process.env.AUTHOR,
+  revalidate: process.env.REVALIDATE,
 
   // open graph metadata (optional)
   description: process.env.DESCRIPTION,
@@ -32,10 +32,11 @@ export default siteConfig({
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 
-  includeNotionIdInUrls: false,
+  includeNotionIdInUrls: !!process.env.INCLUDE_NOTION_ID_IN_URLS,
+  showCollectionViewDropdown: !!process.env.SHOW_COLLECTION_VIEW_DROPDOWN,
 
   // whether or not to enable support for LQIP preview images (optional)
-  isPreviewImageSupportEnabled: true,
+  isPreviewImageSupportEnabled: !!process.env.PREVIEW_IMAGE,
 
   // whether or not redis is enabled for caching generated preview images (optional)
   // NOTE: if you enable redis, you need to set the `REDIS_HOST` and `REDIS_PASSWORD`
@@ -53,7 +54,7 @@ export default siteConfig({
   // whether to use the default notion navigation style or a custom one with links to
   // important pages. To use `navigationLinks`, set `navigationStyle` to `custom`.
   // navigationStyle: 'default'
-  navigationStyle: 'custom',
-  navigationLinks: JSON.parse(process.env.NAVIGATION_LINKS) ?? [],
-})
+  navigationStyle: process.env.NAVIGATION_STYLE as NavigationStyle,
+  navigationLinks: JSON.parse(process.env.NAVIGATION_LINKS),
 
+})

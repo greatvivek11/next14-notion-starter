@@ -30,7 +30,8 @@
 ## Caveats
 - Requires Node server as **ISR** cannot work with static exports. [Static Export Unsupported Features ]('https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#unsupported-features)
 - Social Links on side don't appear on full width pages.
-- Unsupported Notion features - Buttons, Link's color
+- Unsupported Notion features - Buttons, Link's color, Kanban boards view (status, Assigned to properties).
+- If deployed to Vercel -> API functions has a free limit of 1mb. Most functions in this repo almost hit that limit.
 
 ## Roadmap
 - To migrate to App router.
@@ -77,3 +78,6 @@
         }
     }
     ```
+## Docs
+- [Project_Structure](docs/Project_Structure.md)
+- [text](docs/Notion.md)

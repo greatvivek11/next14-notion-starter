@@ -5,10 +5,8 @@
   "description": "NextJS14 website using Notion as CMS",
   "author": "Vivek Kaushik",
   "license": "MIT",
-  "engines": {
-    "node": ">=20"
-  },
   "scripts": {
+    "prebuild": "mkdir docs; echo \\`\\`\\`  > docs/Project_Structure.md; tree -L 3 -I node_modules >> docs/Project_Structure.md; dotenvx genexample",
     "dev": "dotenvx run -- next dev",
     "build": "dotenvx run -- next build",
     "start": "dotenvx run -- next start",

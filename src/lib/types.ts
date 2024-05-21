@@ -4,7 +4,6 @@ import { ParsedUrlQuery } from 'querystring'
 export * from 'notion-types'
 
 export type NavigationStyle = 'default' | 'custom'
-
 export interface PageError {
   message?: string
   statusCode: number

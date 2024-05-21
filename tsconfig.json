@@ -6,12 +6,12 @@
       "dom.iterable",
       "esnext"
     ],
+    "noEmit": true,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
