@@ -3,6 +3,7 @@
 ├── README.md
 ├── biome.json
 ├── docs
+│   ├── Env.md
 │   ├── Notion.md
 │   └── Project_Structure.md
 ├── next-env.d.ts
@@ -39,7 +40,6 @@
 │   ├── lib
 │   │   ├── acl.ts
 │   │   ├── config.ts
-│   │   ├── db.ts
 │   │   ├── get-canonical-page-id.ts
 │   │   ├── get-config-value.ts
 │   │   ├── get-page-tweet.ts

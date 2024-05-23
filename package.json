@@ -24,12 +24,17 @@
     "test:prettier": "prettier '**/*.{js,jsx,ts,tsx}' --check",
     "prepare": "husky"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit":"npm run generate:project_heirarchy",
+      "pre-push": "npm run build && git push"
+    }
+  },
   "dependencies": {
     "@fisch0920/use-dark-mode": "^2.4.0",
-    "@keyvhq/core": "^1.6.9",
-    "@keyvhq/redis": "^1.6.10",
     "@react-icons/all-files": "^4.1.0",
     "@vercel/analytics": "^1.2.2",
+    "@vercel/og": "^0.0.19",
     "@vercel/speed-insights": "^1.0.10",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
@@ -65,7 +70,6 @@
     "@types/react": "^18.0.21",
     "@typescript-eslint/eslint-plugin": "^5.40.0",
     "@typescript-eslint/parser": "^5.40.0",
-    "@vercel/og": "^0.0.19",
     "cross-env": "^7.0.2",
     "eslint": "^8.25.0",
     "eslint-config-next": "14.2.3",

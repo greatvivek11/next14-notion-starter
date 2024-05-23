@@ -48,6 +48,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "lib/site.config.ts"
+    "lib/site.config.ts",
+    "site.config.ts"
   ]
 }
