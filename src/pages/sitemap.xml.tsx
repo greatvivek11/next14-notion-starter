@@ -53,4 +53,6 @@ const createSitemap = (siteMap: SiteMap) =>
   </urlset>
 `
 
-export default function sitemap() { }
+export default function sitemap() {
+  return null
+ }

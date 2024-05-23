@@ -30,6 +30,7 @@ import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
+import { showCollectionViewDropdown } from '@/lib/config'
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -197,6 +198,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
     block?.type === 'page' && block?.parent_table === 'collection'
 
   const showTableOfContents = !!isBlogPost
+  const isCollectionViewVisible = showCollectionViewDropdown
   const minTableOfContentsItems = 3
 
   const pageAside = React.useMemo(
@@ -277,7 +279,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
         rootDomain={site.domain}
         fullPage={!isLiteMode}
         previewImages={!!recordMap.preview_images}
-        showCollectionViewDropdown={true}
+        showCollectionViewDropdown={isCollectionViewVisible}
         showTableOfContents={showTableOfContents}
         minTableOfContentsItems={minTableOfContentsItems}
         defaultPageIcon={config.defaultPageIcon}
@@ -290,7 +292,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
         pageAside={pageAside}
         footer={footer}
         pageTitle={tagsPage && propertyToFilterName ? title : undefined}
-        isLinkCollectionToUrlProperty={false}
       />
     </>
   )

@@ -3,6 +3,7 @@ import * as types from './types'
 export interface SiteConfig {
   rootNotionPageId: string
   rootNotionSpaceId?: string
+  revalidate?: string,
 
   name: string
   domain: string
@@ -28,6 +29,7 @@ export interface SiteConfig {
   isSearchEnabled?: boolean
 
   includeNotionIdInUrls?: boolean
+  showCollectionViewDropdown? :boolean,
   pageUrlOverrides?: types.PageUrlOverridesMap
   pageUrlAdditions?: types.PageUrlOverridesMap
 

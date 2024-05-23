@@ -1,14 +1,15 @@
-import React from 'react'
-import { domain, isDev, rootNotionPageId } from '@/lib/config'
+import { NotionPage } from '@/components/NotionPage'
+import { domain } from '@/lib/config'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
 import omit from 'lodash.omit'
+import { GetServerSideProps } from 'next/types'
 import type { ExtendedRecordMap } from 'notion-types'
 import { normalizeTitle } from 'notion-utils'
-import { NotionPage } from '@/components/NotionPage'
 
 const tagsPropertyNameLowerCase = 'tags'
 
-export const getStaticProps = async (context) => {
+// Using SSR for tags. Replace with getStaticProps for SSG
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const rawTagName = (context.params.tagName as string) || ''
 
     try {
@@ -88,8 +89,7 @@ export const getStaticProps = async (context) => {
                 ...props,
                 tagsPage: true,
                 propertyToFilterName
-            },
-            revalidate: 10
+            }
         }
     } catch (err) {
         console.error('page error', domain, rawTagName, err)
@@ -100,38 +100,38 @@ export const getStaticProps = async (context) => {
     }
 }
 
-export async function getStaticPaths() {
-    if (!isDev) {
-        const props = await resolveNotionPage(domain, rootNotionPageId)
+// export async function getStaticPaths() {
+//     if (!isDev) {
+//         const props = await resolveNotionPage(domain, rootNotionPageId)
 
-        if (props.recordMap) {
-            const recordMap = props.recordMap as ExtendedRecordMap
-            const collection = Object.values(recordMap.collection)[0]?.value
+//         if (props.recordMap) {
+//             const recordMap = props.recordMap as ExtendedRecordMap
+//             const collection = Object.values(recordMap.collection)[0]?.value
 
-            if (collection) {
-                const propertyToFilterSchema = Object.entries(collection.schema).find(
-                    (property) =>
-                        property[1]?.name?.toLowerCase() === tagsPropertyNameLowerCase
-                )?.[1]
+//             if (collection) {
+//                 const propertyToFilterSchema = Object.entries(collection.schema).find(
+//                     (property) =>
+//                         property[1]?.name?.toLowerCase() === tagsPropertyNameLowerCase
+//                 )?.[1]
 
-                const paths = propertyToFilterSchema.options
-                    .map((option) => normalizeTitle(option.value))
-                    .filter(Boolean)
-                    .map((slug) => `/tags/${slug}`)
+//                 const paths = propertyToFilterSchema.options
+//                     .map((option) => normalizeTitle(option.value))
+//                     .filter(Boolean)
+//                     .map((slug) => `/tags/${slug}`)
 
-                return {
-                    paths,
-                    fallback: true
-                }
-            }
-        }
-    }
+//                 return {
+//                     paths,
+//                     fallback: true
+//                 }
+//             }
+//         }
+//     }
 
-    return {
-        paths: [],
-        fallback: true
-    }
-}
+//     return {
+//         paths: [],
+//         fallback: true
+//     }
+// }
 
 export default function NotionTagsPage(props) {
     return <NotionPage {...props} />

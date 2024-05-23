@@ -96,4 +96,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   return { props: {} }
 }
 
-export default function feed() {}
+export default function Feed() {
+  return null
+}

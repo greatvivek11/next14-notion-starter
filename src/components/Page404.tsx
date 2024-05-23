@@ -30,6 +30,8 @@ export const Page404: React.FC<types.PageProps> = ({ site, pageId, error }) => {
 
           <Image
             src='/404.png'
+            width={1200}
+            height={600}
             alt='404 Not Found'
             className={styles.errorImage}
           />

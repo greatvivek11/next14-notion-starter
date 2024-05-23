@@ -14,7 +14,7 @@ export const config = {
 export const getStaticProps: GetStaticProps<PageProps, Params> = async (
   context
 ) => {
-  const rawPageId = context.params.pageId as string
+  const rawPageId = context.params?.pageId as string
 
   try {
     const props = await resolveNotionPage(domain, rawPageId)

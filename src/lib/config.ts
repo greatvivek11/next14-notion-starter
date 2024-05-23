@@ -15,6 +15,7 @@ import {
   Site
 } from './types'
 
+// Required Notion Page ID
 export const rootNotionPageId: string = parsePageId(
   getSiteConfig('rootNotionPageId'),
   { uuid: false }
@@ -24,26 +25,34 @@ if (!rootNotionPageId) {
   throw new Error('Config error invalid "rootNotionPageId"')
 }
 
-// if you want to restrict pages to a single notion workspace (optional)
+// optional - if you want to restrict pages to a single notion workspace
 export const rootNotionSpaceId: string | null = parsePageId(
   getSiteConfig('rootNotionSpaceId', null),
   { uuid: true }
 )
 
+// optional to revalidate the page when the render mode is SSG or ISR
+export const revalidate = Number.parseInt(getSiteConfig('revalidate', '3600'))
+
+// optional whether or not to override the  page urls of Notion pages.
 export const pageUrlOverrides = cleanPageUrlMap(
   getSiteConfig('pageUrlOverrides', {}) || {},
   { label: 'pageUrlOverrides' }
 )
 
+// optional whether or not to add some additional pages to the site which aren't children of the ROOT_NOTION_PAGE_ID
 export const pageUrlAdditions = cleanPageUrlMap(
   getSiteConfig('pageUrlAdditions', {}) || {},
   { label: 'pageUrlAdditions' }
 )
 
+// optional whether or not to invert the page url overrides
 export const inversePageUrlOverrides = invertPageUrlOverrides(pageUrlOverrides)
 
 export const environment = process.env.NODE_ENV || 'development'
 export const isDev = environment === 'development'
+
+// ----------------------------------------------------------------------------
 
 // general site config
 export const name: string = getSiteConfig('name')
@@ -52,6 +61,8 @@ export const domain: string = getSiteConfig('domain')
 export const description: string = getSiteConfig('description', 'Notion Blog')
 export const language: string = getSiteConfig('language', 'en')
 
+// ----------------------------------------------------------------------------
+
 // social accounts
 export const twitter: string | null = getSiteConfig('twitter', null)
 export const github: string | null = getSiteConfig('github', null)
@@ -59,6 +70,7 @@ export const youtube: string | null = getSiteConfig('youtube', null)
 export const linkedin: string | null = getSiteConfig('linkedin', null)
 export const newsletter: string | null = getSiteConfig('newsletter', null)
 
+// ----------------------------------------------------------------------------
 
 // default notion values for site-wide consistency (optional; may be overridden on a per-page basis)
 export const defaultPageIcon: string | null = getSiteConfig(
@@ -74,6 +86,8 @@ export const defaultPageCoverPosition: number = getSiteConfig(
   0.5
 )
 
+// ----------------------------------------------------------------------------
+
 // Optional whether or not to enable support for LQIP preview images
 export const isPreviewImageSupportEnabled: boolean = getSiteConfig(
   'isPreviewImageSupportEnabled',
@@ -86,38 +100,26 @@ export const includeNotionIdInUrls: boolean = getSiteConfig(
   !!isDev
 )
 
+// Optional whether or not to show the collection view dropdown i.e., the tabs in a gallery view database.
+export const showCollectionViewDropdown: boolean = getSiteConfig(
+  'showCollectionViewDropdown',
+  false
+)
+
+// Optional whether or not to show the links in the page header.
 export const navigationStyle: NavigationStyle = getSiteConfig(
   'navigationStyle',
   'default'
 )
 
+// Optional - navigation links to be shown in the page header if navigationStyle = 'custom'
 export const navigationLinks: Array<NavigationLink | null> = getSiteConfig(
   'navigationLinks',
   null
 )
 
-// Optional site search
+// Optional whether or not to enable search
 export const isSearchEnabled: boolean = getSiteConfig('isSearchEnabled', true)
-
-// ----------------------------------------------------------------------------
-
-// Optional redis instance for persisting preview images
-export const isRedisEnabled: boolean =
-  getSiteConfig('isRedisEnabled', false) || !!getEnv('REDIS_ENABLED', null)
-
-// (if you want to enable redis, only REDIS_HOST and REDIS_PASSWORD are required)
-// we recommend that you store these in a local `.env` file
-export const redisHost: string | null = getEnv('REDIS_HOST', null)
-export const redisPassword: string | null = getEnv('REDIS_PASSWORD', null)
-export const redisUser: string = getEnv('REDIS_USER', 'default')
-export const redisUrl = getEnv(
-  'REDIS_URL',
-  `redis://${redisUser}:${redisPassword}@${redisHost}`
-)
-export const redisNamespace: string | null = getEnv(
-  'REDIS_NAMESPACE',
-  'preview-images'
-)
 
 // ----------------------------------------------------------------------------
 
