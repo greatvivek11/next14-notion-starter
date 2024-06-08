@@ -5,6 +5,7 @@ import * as config from '@/lib/config'
 import * as types from '@/lib/types'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
 
+
 export const PageHead: React.FC<
   types.PageProps & {
     title?: string

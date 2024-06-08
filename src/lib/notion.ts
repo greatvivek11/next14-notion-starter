@@ -1,19 +1,19 @@
+"use server"
 import { ExtendedRecordMap, SearchParams, SearchResults } from 'notion-types'
 import { mergeRecordMaps, parsePageId } from 'notion-utils'
 import pMap from 'p-map'
-
 import {
-  isPreviewImageSupportEnabled,
+  // isPreviewImageSupportEnabled,
   navigationLinks,
   navigationStyle
 } from './config'
 import { notion } from './notion-api'
 import { getPreviewImageMap } from './preview-images'
 
-const getNavigationLinkPages = 
+const getNavigationLinkPages =
   async (): Promise<ExtendedRecordMap[]> => {
     const navigationLinkPageIds = (navigationLinks || [])
-      .map((link) => link.pageId)
+      .map((link) => link?.pageId)
       .filter(Boolean)
 
     if (navigationStyle !== 'default' && navigationLinkPageIds.length) {
@@ -53,10 +53,10 @@ export async function getPage(pageId: string): Promise<ExtendedRecordMap> {
     }
   }
 
-  if (isPreviewImageSupportEnabled) {
-    const previewImageMap = await getPreviewImageMap(recordMap)
-      ; (recordMap as any).preview_images = previewImageMap
-  }
+  // if (isPreviewImageSupportEnabled) {
+  //   const previewImageMap = await getPreviewImageMap(recordMap);
+  //   recordMap.preview_images = previewImageMap
+  // }
 
   return recordMap
 }

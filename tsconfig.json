@@ -39,7 +39,13 @@
       "@/public/*": [
         "public/*"
       ]
-    }
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": false
   },
   "exclude": [
     "node_modules"
@@ -49,6 +55,7 @@
     "**/*.ts",
     "**/*.tsx",
     "lib/site.config.ts",
-    "site.config.ts"
+    "site.config.ts",
+    ".next/types/**/*.ts"
   ]
 }

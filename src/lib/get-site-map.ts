@@ -1,6 +1,9 @@
 import { getAllPagesInSpace, getPageProperty } from 'notion-utils'
 import { rootNotionPageId, rootNotionSpaceId, site } from './config'
-import type * as types from './types'
+import pMemoize from 'p-memoize'
+
+
+import * as types from './types'
 import { includeNotionIdInUrls } from './config'
 import { getCanonicalPageId } from './get-canonical-page-id'
 import { notion } from './notion-api'
@@ -18,7 +21,12 @@ export async function getSiteMap(): Promise<types.SiteMap> {
     ...partialSiteMap
   } as types.SiteMap
 }
-async function getAllPages(
+
+const getAllPages = pMemoize(getAllPagesImpl, {
+  cacheKey: (...args) => JSON.stringify(args)
+})
+
+async function getAllPagesImpl(
   rootNotionPageId: string,
   rootNotionSpaceId: string
 ): Promise<Partial<types.SiteMap>> {
@@ -41,7 +49,7 @@ async function getAllPages(
       }
 
       const block = recordMap.block[pageId]?.value
-      if (!(getPageProperty<boolean|null>('Public', block, recordMap) ?? true)) {
+      if (!(getPageProperty<boolean | null>('Public', block, recordMap) ?? true)) {
         return map
       }
 
@@ -59,11 +67,12 @@ async function getAllPages(
         // })
 
         return map
-      }
+      } else {
         return {
           ...map,
           [canonicalPageId]: pageId
         }
+      }
     },
     {}
   )

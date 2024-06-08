@@ -43,7 +43,7 @@
     "source.addMissingImports.biome": "explicit",
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit",
-    "source.removeUnusedImports.biome": "explicit",
+    "source.removeUnusedImports.biome": "always",
     "source.sortImports.biome": "explicit",
   },
 }

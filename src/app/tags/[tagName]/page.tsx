@@ -1,19 +1,19 @@
+import { getSiteMap } from '@/lib/get-site-map'
+import { PageProps } from '@/lib/types'
 import { NotionPage } from '@/components/NotionPage'
 import { domain } from '@/lib/config'
 import { resolveNotionPage } from '@/lib/resolve-notion-page'
 import omit from 'lodash.omit'
-import { GetServerSideProps } from 'next/types'
 import type { ExtendedRecordMap } from 'notion-types'
 import { normalizeTitle } from 'notion-utils'
 
+export const runtime = "nodejs"
+
 const tagsPropertyNameLowerCase = 'tags'
 
-// Using SSR for tags. Replace with getStaticProps for SSG
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const rawTagName = (context.params.tagName as string) || ''
-
+async function getPageProps(tagName: string): Promise<PageProps> {
     try {
-        const props = await resolveNotionPage(domain, process.env.BLOG_PAGE_ID)
+        const props = await resolveNotionPage(process.env.BLOG_PAGE_ID)
         let propertyToFilterName: string = null
 
         if (props.recordMap) {
@@ -44,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                         )
 
                         const propertyToFilterId = propertyToFilter?.[0]
-                        const filteredValue = normalizeTitle(rawTagName)
+                        const filteredValue = normalizeTitle(tagName)
                         propertyToFilterName = propertyToFilter?.[1]?.options.find(
                             (option) => normalizeTitle(option.value) === filteredValue
                         )?.value ?? null
@@ -85,54 +85,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
 
         return {
-            props: {
-                ...props,
-                tagsPage: true,
-                propertyToFilterName
-            }
+            ...props,
+            tagsPage: true,
+            propertyToFilterName
         }
     } catch (err) {
-        console.error('page error', domain, rawTagName, err)
-
-        // we don't want to publish the error version of this page, so
-        // let next.js know explicitly that incremental SSG failed
+        console.error('page error', domain, tagName, err)
         throw err
     }
 }
 
-// export async function getStaticPaths() {
-//     if (!isDev) {
-//         const props = await resolveNotionPage(domain, rootNotionPageId)
+export async function generateStaticParams() {
+    const siteMap = await getSiteMap()
+    return Object.keys(siteMap.canonicalPageMap)
+        .map(pageId => { params: { tagName: pageId } })
+}
 
-//         if (props.recordMap) {
-//             const recordMap = props.recordMap as ExtendedRecordMap
-//             const collection = Object.values(recordMap.collection)[0]?.value
-
-//             if (collection) {
-//                 const propertyToFilterSchema = Object.entries(collection.schema).find(
-//                     (property) =>
-//                         property[1]?.name?.toLowerCase() === tagsPropertyNameLowerCase
-//                 )?.[1]
-
-//                 const paths = propertyToFilterSchema.options
-//                     .map((option) => normalizeTitle(option.value))
-//                     .filter(Boolean)
-//                     .map((slug) => `/tags/${slug}`)
-
-//                 return {
-//                     paths,
-//                     fallback: true
-//                 }
-//             }
-//         }
-//     }
-
-//     return {
-//         paths: [],
-//         fallback: true
-//     }
-// }
-
-export default function NotionTagsPage(props) {
-    return <NotionPage {...props} />
+export default async function NotionTagsPage({ params }) {
+    const pageProps = await getPageProps(params.tagName);
+    return <NotionPage {...pageProps} />
 }

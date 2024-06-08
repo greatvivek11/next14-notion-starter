@@ -8,7 +8,7 @@
   "scripts": {
     "generate:project_heirarchy": "mkdir docs; echo \\`\\`\\`  > docs/Project_Structure.md; tree -L 3 -I node_modules >> docs/Project_Structure.md; dotenvx genexample",
     "dotenvx": "dotenvx",
-    "dev": "dotenvx run -- next dev --turbo",
+    "dev": "dotenvx run -- next dev",
     "build": "dotenvx run -- next build",
     "start": "dotenvx run -- next start",
     "lint": "next lint",
@@ -26,7 +26,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit":"npm run generate:project_heirarchy",
+      "pre-commit": "npm run generate:project_heirarchy",
       "pre-push": "npm run build && git push"
     }
   },
@@ -48,7 +48,7 @@
     "notion-types": "^6.15.6",
     "notion-utils": "^6.15.6",
     "p-map": "^5.3.0",
-    "p-memoize": "^6.0.1",
+    "p-memoize": "^6.0.2",
     "raf": "^3.4.1",
     "random": "^4.1.0",
     "react": "^18.2.0",
@@ -61,7 +61,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
-    "@dotenvx/dotenvx": "^0.43.0",
+    "@dotenvx/dotenvx": "^0.44.1",
     "@next/bundle-analyzer": "^12.3.1",
     "@next/eslint-plugin-next": "^14.2.3",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",

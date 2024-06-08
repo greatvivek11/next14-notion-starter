@@ -13,7 +13,6 @@ export default siteConfig({
   name: process.env.NAME,
   domain: process.env.DOMAIN,
   author: process.env.AUTHOR,
-  revalidate: process.env.REVALIDATE,
 
   // open graph metadata (optional)
   description: process.env.DESCRIPTION,

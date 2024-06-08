@@ -1,9 +1,8 @@
-import React from 'react'
+'use client'
+import cs from 'classnames'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import cs from 'classnames'
 import type { PageBlock } from 'notion-types'
 import {
   formatDate,
@@ -11,6 +10,7 @@ import {
   getPageProperty,
   normalizeTitle
 } from 'notion-utils'
+import React from 'react'
 import BodyClassName from 'react-body-classname'
 import { NotionRenderer } from 'react-notion-x'
 import TweetEmbed from 'react-tweet-embed'
@@ -23,14 +23,13 @@ import { searchNotion } from '@/lib/search-notion'
 import type * as types from '@/lib/types'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
+import { showCollectionViewDropdown } from '@/lib/config'
 import { Footer } from './Footer'
-import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
 import styles from './styles.module.css'
-import { showCollectionViewDropdown } from '@/lib/config'
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -75,6 +74,7 @@ const Pdf = dynamic(
     ssr: true
   }
 )
+
 const Modal = dynamic(
   () =>
     import('react-notion-x/build/third-party/modal').then((m) => {
@@ -90,10 +90,8 @@ const Tweet = ({ id }: { id: string }) => {
   return <TweetEmbed tweetId={id} />
 }
 
-const propertyLastEditedTimeValue = (
-  { block, pageHeader },
-  defaultFn: () => React.ReactNode
-) => {
+function propertyLastEditedTimeValue({ block, pageHeader },
+  defaultFn: () => React.ReactNode): React.ReactNode {
   if (pageHeader && block?.last_edited_time) {
     return `Last updated ${formatDate(block?.last_edited_time, {
       month: 'long'
@@ -120,10 +118,8 @@ const propertyDateValue = (
   return defaultFn()
 }
 
-const propertyTextValue = (
-  { schema, pageHeader },
-  defaultFn: () => React.ReactNode
-) => {
+function propertyTextValue({ schema, pageHeader },
+  defaultFn: () => React.ReactNode): string | number | boolean | JSX.Element | React.ReactFragment | null | undefined {
   if (pageHeader && schema?.name?.toLowerCase() === 'author') {
     return <b>{defaultFn()}</b>
   }
@@ -131,10 +127,8 @@ const propertyTextValue = (
   return defaultFn()
 }
 
-const propertySelectValue = (
-  { schema, value, key, pageHeader },
-  defaultFn: () => React.ReactNode
-) => {
+function propertySelectValue({ schema, value, key, pageHeader },
+  defaultFn: () => React.ReactNode): string | number | boolean | JSX.Element | React.ReactFragment | null | undefined {
   value = normalizeTitle(value)
 
   if (pageHeader && schema.type === 'multi_select' && value) {
@@ -156,7 +150,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
   tagsPage,
   propertyToFilterName
 }) => {
-  const router = useRouter()
   const lite = useSearchParam('lite')
 
   const components = React.useMemo(
@@ -164,9 +157,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
       nextImage: Image,
       nextLink: Link,
       Code,
+      Pdf,
       Collection,
       Equation,
-      Pdf,
       Modal,
       Tweet,
       Header: NotionPageHeader,
@@ -192,7 +185,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
   }, [site, recordMap, lite])
 
   const keys = Object.keys(recordMap?.block || {})
-  const block = recordMap?.block?.[keys[0]]?.value
+  const block = recordMap?.block?.[keys[0]]?.value 
 
   const isBlogPost =
     block?.type === 'page' && block?.parent_table === 'collection'
@@ -209,10 +202,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
   )
 
   const footer = React.useMemo(() => <Footer />, [])
-
-  if (router.isFallback) {
-    return <Loading />
-  }
 
   if (error || !site || !block) {
     return <Page404 site={site} pageId={pageId} error={error} />
@@ -246,7 +235,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
     (block as PageBlock).format?.page_cover ||
     config.defaultPageCover,
     block
-  )
+  ) ?? undefined
 
   const socialDescription =
     getPageProperty<string>('Description', block, recordMap) ||
