@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     description: process.env.DESCRIPTION,
     url: `https://${process.env.DOMAIN}`,
     siteName: 'Next.js Notion Starter Kit',
-    images: ['/favicon.png'],
+    images: ['/favicon-192x192.png'],
     locale: 'en-US',
     type: 'website',
   },

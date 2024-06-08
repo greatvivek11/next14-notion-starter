@@ -24,12 +24,6 @@
     "test:prettier": "prettier '**/*.{js,jsx,ts,tsx}' --check",
     "prepare": "husky"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run generate:project_heirarchy",
-      "pre-push": "npm run build && git push"
-    }
-  },
   "dependencies": {
     "@fisch0920/use-dark-mode": "^2.4.0",
     "@react-icons/all-files": "^4.1.0",
