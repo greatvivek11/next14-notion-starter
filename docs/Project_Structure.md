@@ -1,6 +1,5 @@
 ```
 .
-├── README.md
 ├── biome.json
 ├── docs
 │   ├── Env.md
@@ -21,6 +20,7 @@
 │   │   ├── Inter-Regular.ttf
 │   │   └── Inter-SemiBold.ttf
 │   └── manifest.json
+├── readme.md
 ├── site.config.ts
 ├── src
 │   ├── components
