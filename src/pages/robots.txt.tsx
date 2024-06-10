@@ -42,4 +42,4 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   }
 }
 
-export default function robots() { }
+export default () => null

@@ -49,32 +49,18 @@ const Code = dynamic(() =>
       import('prismjs/components/prism-yaml.js')
     ])
     return m.Code
-  }),
-  {
-    ssr: true
-  }
+  })
 )
 
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
     (m) => m.Collection
-  ),
-  {
-    ssr: true
-  }
+  )
 )
 const Equation = dynamic(() =>
-  import('react-notion-x/build/third-party/equation').then((m) => m.Equation),
-  {
-    ssr: true
-  }
+  import('react-notion-x/build/third-party/equation').then((m) => m.Equation)
 )
-const Pdf = dynamic(
-  () => import('react-notion-x/build/third-party/pdf').then((m) => m.Pdf),
-  {
-    ssr: true
-  }
-)
+
 const Modal = dynamic(
   () =>
     import('react-notion-x/build/third-party/modal').then((m) => {
@@ -82,7 +68,7 @@ const Modal = dynamic(
       return m.Modal
     }),
   {
-    ssr: true
+    ssr: false
   }
 )
 
@@ -166,7 +152,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
       Code,
       Collection,
       Equation,
-      Pdf,
       Modal,
       Tweet,
       Header: NotionPageHeader,
@@ -291,7 +276,7 @@ export const NotionPage: React.FC<types.PageProps> = ({
         searchNotion={config.isSearchEnabled ? searchNotion : null}
         pageAside={pageAside}
         footer={footer}
-        pageTitle={tagsPage && propertyToFilterName ? title : undefined}
+        pageTitle={tagsPage && propertyToFilterName ? title : null}
       />
     </>
   )
