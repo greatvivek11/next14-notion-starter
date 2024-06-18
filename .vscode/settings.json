@@ -46,4 +46,7 @@
     "source.removeUnusedImports.biome": "explicit",
     "source.sortImports.biome": "explicit",
   },
+  "[ignore]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
 }
