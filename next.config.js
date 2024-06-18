@@ -4,6 +4,17 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 module.exports = withBundleAnalyzer({
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      };
+    }
+    return config;
+  },
   env: {
     ROOT_NOTION_PAGE_ID: process.env.ROOT_NOTION_PAGE_ID,
     ROOT_NOTION_SPACE_ID: process.env.ROOT_NOTION_SPACE_ID,
