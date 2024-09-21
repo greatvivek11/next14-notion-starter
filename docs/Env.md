@@ -23,11 +23,5 @@
     "start": "dotenvx run -- next start"
     }
     ```
-4. Create `.env.preview` in the root of your project.
-5. Create `.env.production` in the root of your project.
-6. Encrypt production - `npm run dotenvx -- set ROOT_NOTION_PAGE_ID <ROOT_NOTION_PAGE_ID> --encrypt -f .env.production`
 
-    > You SHOULD commit .env.production to code. It is now encrypted, safe, and recommended to do so. But DO NOT commit .env.keys to code. Keep them somewhere safe like 1Password.
-
-7. Set decryption key - `npx vercel@latest env add DOTENV_PRIVATE_KEY_PRODUCTION`
 

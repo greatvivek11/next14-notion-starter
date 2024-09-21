@@ -1,5 +1,6 @@
 ```
 .
+├── README.md
 ├── biome.json
 ├── docs
 │   ├── Env.md
@@ -20,7 +21,6 @@
 │   │   ├── Inter-Regular.ttf
 │   │   └── Inter-SemiBold.ttf
 │   └── manifest.json
-├── readme.md
 ├── site.config.ts
 ├── src
 │   ├── components
@@ -73,6 +73,7 @@
 │       ├── notion.css
 │       └── prism-theme.css
 ├── tsconfig.json
+├── turbo.json
 └── vercel.json
 
-11 directories, 64 files
+11 directories, 65 files
